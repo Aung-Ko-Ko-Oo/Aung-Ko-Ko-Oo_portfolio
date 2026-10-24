@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aung Ko Ko Oo — Computer Scientist & AI Researcher</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,600;1,700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Special+Elite&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Myanmar:wght@400;700&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #efe4c8;
+    --paper-2: #e6d8ae;
+    --paper-shadow: #d8c896;
+    --ink: #241a10;
+    --ink-soft: #4a3a26;
+    --brass: #9c7a2e;
+    --brass-bright: #c9a13f;
+    --rust: #8a3a29;
+    --line: rgba(36,26,16,0.32);
+    --line-soft: rgba(36,26,16,0.16);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'EB Garamond',serif;
+    font-size:18px;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{ font-family:'Playfair Display',serif; font-weight:700; color:var(--ink); }
+  .stamp-font{ font-family:'Special Elite',monospace; letter-spacing:0.08em; }
+  a{ color:inherit; text-decoration:none; }
+  ::selection{ background:var(--brass); color:var(--paper); }
+
+  /* paper grain + fiber texture, everywhere */
+  body::before{
+    content:''; position:fixed; inset:0; z-index:1; pointer-events:none; opacity:0.5; mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.15  0 0 0 0 0.11  0 0 0 0 0.06  0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  /* vignette on whole page */
+  body::after{
+    content:''; position:fixed; inset:0; z-index:1; pointer-events:none;
+    background:radial-gradient(ellipse at center, transparent 40%, rgba(36,26,16,0.22) 100%);
+  }
+  .wrap{ position:relative; z-index:2; }
+
+  /* ---------- ornament helpers ---------- */
+  .flourish{ display:block; width:120px; height:26px; margin:26px auto; opacity:0.75; }
+  .rule-double{ height:6px; border-top:1px solid var(--line); border-bottom:3px solid var(--line); margin:0 auto; }
+  .corner-frame{ position:relative; }
+  .corner-frame::before, .corner-frame::after{
+    content:''; position:absolute; width:26px; height:26px; border:2px solid var(--brass); opacity:0.7;
+  }
+  .corner-frame::before{ top:-10px; left:-10px; border-right:none; border-bottom:none; }
+  .corner-frame::after{ bottom:-10px; right:-10px; border-left:none; border-top:none; }
+
+  /* ---------- nav ---------- */
+  nav{
+    position:fixed; top:0; left:0; right:0; z-index:50;
+    display:flex; align-items:center; justify-content:center; gap:2px;
+    background:linear-gradient(var(--paper) 82%, transparent);
+    padding:20px 10px 30px;
+  }
+  nav a{
+    font-family:'Special Elite',monospace; font-size:12px; letter-spacing:.12em; text-transform:uppercase;
+    padding:8px 16px; color:var(--ink-soft); border-bottom:1px solid transparent; transition:.3s;
+  }
+  nav a.active, nav a:hover{ color:var(--rust); border-bottom-color:var(--rust); }
+  @media(max-width:1000px){
+    nav a{ padding:8px 10px; font-size:11px; }
+  }
+  @media(max-width:820px){
+    nav{ flex-wrap:wrap; padding:12px 6px 20px; }
+    nav a{ font-size:10.5px; padding:6px 9px; }
+  }
+
+  section{ position:relative; padding:130px 8vw 100px; max-width:1180px; margin:0 auto; }
+  .eyebrow{
+    font-family:'Special Elite',monospace; font-size:12px; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--rust); display:block; text-align:center; margin-bottom:14px;
+  }
+  h2.title{ font-size:clamp(30px,4vw,48px); text-align:center; margin-bottom:8px; font-style:italic; }
+  .subtitle{ color:var(--ink-soft); font-size:18px; max-width:600px; margin:0 auto 60px; line-height:1.85; text-align:center; }
+
+  /* ---------- HERO: full photo backdrop ---------- */
+  #home{
+    min-height:100vh; padding:0; max-width:none; margin:0;
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+  }
+  .hero-bg{
+    position:absolute; inset:0; z-index:0; overflow:hidden;
+  }
+  .hero-bg img{
+    width:100%; height:100%; object-fit:cover;
+    filter:grayscale(55%) sepia(65%) contrast(1.2) brightness(0.42) saturate(1.1);
+  }
+  .hero-bg::after{
+    content:''; position:absolute; inset:0;
+    background:radial-gradient(ellipse at 50% 40%, rgba(36,20,10,0.25), rgba(20,12,6,0.82) 78%),
+              linear-gradient(180deg, rgba(20,12,6,0.55), rgba(20,12,6,0.75));
+  }
+  .hero-content{
+    position:relative; z-index:2; text-align:center; color:#efe4c8; padding:0 6vw; max-width:880px;
+  }
+  .hero-kicker{
+    font-family:'Special Elite',monospace; font-size:13px; letter-spacing:.3em; text-transform:uppercase;
+    color:#c9a13f; margin-bottom:26px; display:block;
+  }
+  .hero-name{ font-size:clamp(42px,7vw,80px); font-style:italic; line-height:1.15; margin-bottom:10px; color:#f4ead0;
+    text-shadow:0 2px 30px rgba(0,0,0,0.6); }
+  .hero-role{ font-size:clamp(16px,1.8vw,20px); color:#d9cba0; max-width:560px; margin:20px auto 40px; line-height:1.9; }
+  .hero-rule{ width:90px; height:1px; background:#c9a13f; margin:0 auto 30px; opacity:0.8; }
+  .hero-tags{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-bottom:42px; }
+  .tag{
+    font-family:'Special Elite',monospace; font-size:11.5px; letter-spacing:.05em; padding:8px 15px;
+    border:1px solid rgba(201,161,63,0.5); color:#e6d8ae; background:rgba(20,12,6,0.35);
+  }
+  .cta-row{ display:flex; flex-wrap:wrap; gap:18px; justify-content:center; }
+  .btn{
+    display:inline-flex; align-items:center; gap:10px; padding:15px 30px;
+    font-family:'Playfair Display',serif; font-weight:700; font-style:italic; font-size:16px;
+    border:1px solid #c9a13f; transition:.35s;
+  }
+  .btn-primary{ background:#c9a13f; color:#241a10; }
+  .btn-primary:hover{ background:#efe4c8; }
+  .btn-ghost{ color:#e6d8ae; }
+  .btn-ghost:hover{ background:rgba(201,161,63,0.15); }
+
+  /* seal / signature stamp */
+  .seal{ width:120px; height:120px; margin:0 auto 34px; opacity:0.92; }
+
+  /* ---------- Education / Activity timeline (parchment, plain) ---------- */
+  .timeline{ max-width:720px; margin:0 auto; }
+  .t-item{ position:relative; padding:30px 0 30px 50px; border-left:2px solid var(--line); }
+  .t-item:last-child{ border-left:2px solid transparent; }
+  .t-item::before{
+    content:''; position:absolute; left:-9px; top:34px; width:16px; height:16px; border-radius:50%;
+    background:var(--paper); border:2px solid var(--rust);
+  }
+  .t-year{ font-family:'Special Elite',monospace; color:var(--rust); font-size:13px; letter-spacing:.08em; margin-bottom:6px; display:block; }
+  .t-title{ font-size:24px; font-style:italic; margin-bottom:6px; }
+  .t-org{ color:var(--brass); font-size:16px; margin-bottom:10px; display:block; font-family:'Special Elite',monospace; letter-spacing:.02em; }
+  .t-desc{ color:var(--ink-soft); line-height:1.9; }
+
+  /* ---------- Research: photo band section ---------- */
+  #research{ max-width:none; padding:0; }
+  .photo-band{
+    position:relative; padding:130px 8vw 100px; overflow:hidden;
+  }
+  .photo-band .band-bg{ position:absolute; inset:0; z-index:0; }
+  .photo-band .band-bg img{
+    width:100%; height:100%; object-fit:cover;
+    filter:grayscale(50%) sepia(55%) contrast(1.15) brightness(0.4);
+  }
+  .photo-band .band-bg::after{
+    content:''; position:absolute; inset:0; background:linear-gradient(180deg, rgba(20,12,6,0.86), rgba(20,12,6,0.72) 40%, rgba(20,12,6,0.9));
+  }
+  .photo-band .inner{ position:relative; z-index:2; max-width:1180px; margin:0 auto; }
+  .photo-band .eyebrow{ color:#c9a13f; }
+  .photo-band h2.title{ color:#f4ead0; }
+  .photo-band .subtitle{ color:#cbb989; }
+
+  .research-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:rgba(201,161,63,0.35); }
+  @media(max-width:900px){ .research-grid{ grid-template-columns:1fr; } }
+  .r-card{
+    background:rgba(20,14,8,0.72); padding:34px 28px; color:#e6d8ae;
+  }
+  .r-card .num{ font-family:'Special Elite',monospace; color:#c9a13f; font-size:12px; letter-spacing:.15em; margin-bottom:14px; display:block;}
+  .r-card h3{ font-size:21px; color:#f4ead0; font-style:italic; margin-bottom:12px; }
+  .r-card p{ color:#cbb989; line-height:1.85; font-size:15.5px; }
+
+  /* ---------- Publications ---------- */
+  .pub-list{ max-width:820px; margin:0 auto; }
+  .pub{ padding:32px 0; border-bottom:1px solid var(--line); }
+  .pub:first-child{ border-top:1px solid var(--line); }
+  .pub-year{ font-family:'Special Elite',monospace; color:var(--rust); font-size:14px; letter-spacing:.05em; display:block; margin-bottom:8px;}
+  .pub-title{ font-size:22px; font-style:italic; margin-bottom:10px; line-height:1.55; }
+  .pub-meta{ color:var(--ink-soft); font-size:15px; margin-bottom:12px; font-family:'Special Elite',monospace; letter-spacing:0.01em;}
+  .pub-note{ color:var(--ink-soft); font-size:16px; line-height:1.85; margin-bottom:14px; max-width:640px; }
+  .pub-link{
+    font-family:'Special Elite',monospace; font-size:12.5px; letter-spacing:.08em; color:var(--rust);
+    border-bottom:1px solid var(--rust); padding-bottom:2px;
+  }
+  .pub-link:hover{ color:var(--ink); border-color:var(--ink); }
+
+  /* ---------- Projects / Teaching cards ---------- */
+  .ds-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:34px; max-width:1000px; margin:0 auto; }
+  @media(max-width:820px){ .ds-grid{ grid-template-columns:1fr; } }
+  .ds-card{ padding:36px 30px; position:relative; }
+  .ds-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:14px;}
+  .ds-badge{ font-family:'Special Elite',monospace; font-size:11px; letter-spacing:.06em; padding:5px 12px; border:1px solid var(--brass); color:var(--brass); white-space:nowrap;}
+  .ds-card h3{ font-size:22px; font-style:italic; margin-bottom:14px; }
+  .ds-card p{ color:var(--ink-soft); line-height:1.85; font-size:16px; }
+  .ds-stack{ display:flex; flex-wrap:wrap; gap:8px; margin-top:18px; padding-top:16px; border-top:1px solid var(--line-soft);}
+  .ds-stack span{ font-family:'Special Elite',monospace; font-size:11px; color:var(--ink-soft); padding:5px 10px; border:1px solid var(--line); }
+
+  /* ---------- course links ---------- */
+  .course-link{
+    display:inline-block; margin-top:18px;
+    font-family:'Special Elite',monospace; font-size:12.5px; letter-spacing:.08em; color:var(--rust);
+    border-bottom:1px solid var(--rust); padding-bottom:2px; transition:.3s;
+  }
+  .course-link:hover{ color:var(--ink); border-color:var(--ink); }
+
+  /* ---------- CV: photo band again ---------- */
+  #cv{ max-width:none; padding:0; }
+  .cv-shell{ display:grid; grid-template-columns:1fr 1fr; gap:70px; max-width:1050px; margin:0 auto; }
+  @media(max-width:900px){ .cv-shell{ grid-template-columns:1fr; } }
+  .cv-block h3{
+    font-family:'Special Elite',monospace; font-size:14px; letter-spacing:.1em; text-transform:uppercase;
+    color:#c9a13f; margin-bottom:20px; border-bottom:1px solid rgba(201,161,63,0.4); padding-bottom:10px;
+  }
+  .cv-row{ display:flex; justify-content:space-between; gap:16px; padding:14px 0; border-bottom:1px dotted rgba(230,216,174,0.3); color:#e6d8ae;}
+  .cv-row .role{ font-size:16px; line-height:1.5; font-style:italic; }
+  .cv-row .yr{ color:#a89568; font-family:'Special Elite',monospace; font-size:12px; white-space:nowrap; padding-top:2px;}
+  .skill-group{ margin-bottom:24px; }
+  .skill-group-title{ font-size:12.5px; color:#a89568; font-family:'Special Elite',monospace; margin-bottom:10px; letter-spacing:.05em;}
+  .skill-tags{ display:flex; flex-wrap:wrap; gap:8px; }
+  .skill-tags span{ font-size:13.5px; padding:7px 14px; color:#efe4c8; border:1px solid rgba(230,216,174,0.35); }
+  .cv-download{ margin-top:36px; }
+
+  /* ---------- footer ---------- */
+  footer{
+    text-align:center; padding:80px 8vw 60px; background:var(--paper-2); border-top:1px solid var(--line);
+  }
+  .foot-seal{ width:90px; height:90px; margin:0 auto 26px; opacity:0.85; }
+  .foot-links{ display:flex; justify-content:center; gap:22px; margin-bottom:26px; flex-wrap:wrap; }
+  .foot-links a{ width:42px; height:42px; border:1px solid var(--line); border-radius:50%; display:flex; align-items:center; justify-content:center; transition:.3s; }
+  .foot-links a:hover{ border-color:var(--rust); color:var(--rust); }
+  .foot-links svg{ width:17px; height:17px; }
+  footer small{ font-family:'Special Elite',monospace; font-size:11.5px; letter-spacing:.08em; color:var(--ink-soft); }
+
+  .profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 20px auto;
+    border: 3px solid #c9a13f;
+  }
+  .profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ---------- language switcher ---------- */
+  .lang-switch{ position:fixed; top:14px; right:16px; z-index:60; font-family:'Special Elite',monospace; }
+  .lang-btn{
+    display:flex; align-items:center; gap:8px; padding:8px 14px; cursor:pointer;
+    background:var(--paper); color:var(--ink-soft); border:1px solid var(--line);
+    font:inherit; font-size:12px; letter-spacing:.1em; transition:.3s;
+  }
+  .lang-btn:hover, .lang-btn:focus-visible{ color:var(--rust); border-color:var(--rust); outline:none; }
+  .lang-btn svg{ width:15px; height:15px; }
+  .lang-menu{
+    display:none; list-style:none; position:absolute; right:0; top:calc(100% + 6px); min-width:170px;
+    background:var(--paper); border:1px solid var(--line); box-shadow:0 8px 24px rgba(36,26,16,.25);
+  }
+  .lang-switch.open .lang-menu{ display:block; }
+  .lang-menu button{
+    width:100%; text-align:left; padding:10px 16px; background:none; border:0; cursor:pointer;
+    font:inherit; font-size:13px; color:var(--ink);
+  }
+  .lang-menu button:hover, .lang-menu button.current{ background:var(--paper-2); color:var(--rust); }
+  @media(max-width:820px){
+    .lang-switch{ top:auto; bottom:16px; right:12px; }
+    .lang-menu{ top:auto; bottom:calc(100% + 6px); }
+  }
+
+  /* hide Google's default banner and widget chrome */
+  .skiptranslate iframe, .goog-te-banner-frame{ display:none !important; }
+  body{ top:0 !important; }
+  .goog-text-highlight{ background:none !important; box-shadow:none !important; }
+
+  /* fonts that can display Burmese / Japanese */
+  html:lang(my) *{ font-family:'Noto Serif Myanmar',serif !important; }
+  html:lang(ja) *{ font-family:'Noto Serif JP',serif !important; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<nav id="siteNav">
+  <a href="#home" class="nav-link active">Home</a>
+  <a href="#education" class="nav-link">Education</a>
+  <a href="#research" class="nav-link">Research</a>
+  <a href="#publication" class="nav-link">Publications</a>
+  <a href="#dataset" class="nav-link">Projects</a>
+  <a href="#teaching" class="nav-link">Teaching</a>
+  <a href="#activity" class="nav-link">Activity</a>
+  <a href="#cv" class="nav-link">CV</a>
+</nav>
+
+<!-- ============ LANGUAGE SWITCHER ============ -->
+<div class="lang-switch notranslate" translate="no" id="langSwitch">
+  <button class="lang-btn" id="langBtn" aria-haspopup="true" aria-expanded="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg>
+    <span id="langLabel">English</span>
+  </button>
+  <ul class="lang-menu" id="langMenu">
+    <li><button data-lang="en">English</button></li>
+    <li><button data-lang="my">မြန်မာ</button></li>
+    <li><button data-lang="ja">日本語</button></li>
+    <li><button data-lang="zh-CN">中文（简体）</button></li>
+    <li><button data-lang="ko">한국어</button></li>
+    <li><button data-lang="th">ไทย</button></li>
+    <li><button data-lang="es">Español</button></li>
+    <li><button data-lang="fr">Français</button></li>
+    <li><button data-lang="de">Deutsch</button></li>
+  </ul>
+</div>
+<div id="google_translate_element" style="display:none"></div>
+
+<!-- ============ HOME — full photo backdrop ============ -->
+<section id="home">
+  <div class="hero-bg">
+    <img src="https://cdn.pixabay.com/photo/2023/02/05/01/10/robot-7768527_1280.jpg" alt="BG photo">
+  </div>
+  <div class="hero-content">
+    <div class="profile-avatar">
+      <img src="profile2.jpg" alt="Aung Ko Ko Oo Profile Photo">
+    </div>
+    <span class="hero-kicker">Computer Scientist &amp; Artificial Intelligence Researcher</span>
+    <h1 class="hero-name">Aung Ko Ko Oo</h1>
+    <div class="hero-rule"></div>
+    <p class="hero-role">
+      Building natural language processing and intelligent tutoring systems for
+      low-resource languages — with the same care an artisan brings to a well-made instrument.
+    </p>
+    <div class="hero-tags">
+      <span class="tag">NLP — Low-Resource Languages</span>
+      <span class="tag">Machine learning & Artificial Intelligence</span>
+      <span class="tag">Computer Vision</span>
+      <span class="tag">Quantum Computing</span>
+      <span class="tag">Robotics &amp; HRI</span>
+    </div>
+    <div class="cta-row">
+      <a href="#publication" class="btn btn-primary">View Publications</a>
+      <a href="#cv" class="btn btn-ghost">Download CV</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EDUCATION ============ -->
+<section id="education">
+  <span class="eyebrow">Chapter I</span>
+  <h2 class="title">Education</h2>
+  <svg class="flourish" viewBox="0 0 120 26"><path d="M0 13h40M80 13h40M40 13c5-9 15-9 20 0-5 9-15 9-20 0Z" stroke="#9c7a2e" stroke-width="1" fill="none"/><circle cx="50" cy="13" r="2" fill="#9c7a2e"/><circle cx="70" cy="13" r="2" fill="#9c7a2e"/></svg>
+  <p class="subtitle">Formal coursework paired with self-directed research in artificial intelligence.</p>
+
+  <div class="timeline">
+    <div class="t-item">
+      <span class="t-year">Jan 2026 — Present</span>
+      <h3 class="t-title">MicroMasters® Program in Statistics and Data Science</h3>
+      <span class="t-org">Massachusetts Institute of Technology (MIT) — Cambridge, MA, USA (Online)</span>
+      <p class="t-desc">Graduate-level coursework in probability, statistics, and data analysis, forming the
+        theoretical foundation behind the machine learning systems developed in current research work.</p>
+    </div>
+    <div class="t-item">
+      <span class="t-year">Expected May 2027</span>
+      <h3 class="t-title">Bachelor of Science in Computer Science</h3>
+      <span class="t-org">University of the People — Pasadena, CA, USA · GPA 3.8 / 4.0</span>
+      <p class="t-desc">Core computer science curriculum spanning algorithms, software engineering, and
+        applied mathematics, pursued alongside active research and open-source work.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RESEARCH — photo band ============ -->
+<section id="research">
+  <div class="photo-band">
+    <div class="band-bg"><img src="https://cdn.pixabay.com/photo/2017/05/10/19/29/robot-2301646_1280.jpg" alt=""></div>
+    <div class="inner">
+      <span class="eyebrow">Chapter II</span>
+      <h2 class="title">Research</h2>
+      <p class="subtitle">Founder &amp; Lead Researcher at the Burmese Artificial Intelligence Research Institute (Mar 2026 – Present), building open tools and benchmarks for low-resource language AI.</p>
+
+      <div class="research-grid corner-frame">
+        <div class="r-card">
+          <span class="num">I.</span>
+          <h3>NLP for Low-Resource Languages</h3>
+          <p>Data parsing tools, tokenization frameworks, and transformer fine-tuning benchmarks built for low-resource character architectures such as Burmese.</p>
+        </div>
+        <div class="r-card">
+          <span class="num">II.</span>
+          <h3>Machine learning</h3>
+          <p>Developing robust machine learning architectures, statistical models, and custom optimization algorithms designed for complex data patterns and low-resource environments.</p>
+        </div>
+        <div class="r-card">
+          <span class="num">III.</span>
+          <h3>Quantum Computing</h3>
+          <p> Exploring quantum algorithms, quantum machine learning frameworks, and theoretical architectures to address computational bottlenecks in complex optimization problems.</p>
+        </div>
+        <div class="r-card">
+          <span class="num">IV.</span>
+          <h3>Computer Vision</h3>
+          <p>NumPy-optimized vision pipelines handling irregular character layouts and linguistic segmentation for scripts standard tooling wasn't built for.</p>
+        </div>
+        <div class="r-card">
+          <span class="num">V.</span>
+          <h3>Robotics &amp; Human-Robot Interaction</h3>
+          <p>A longer-term interest in bringing low-resource-language understanding into embodied, interactive systems people can speak with naturally.</p>
+        </div>
+        <div class="r-card">
+          <span class="num">VI.</span>
+          <h3>Artificial Intelligence</h3>
+          <p>Designing scalable artificial intelligence systems, foundation model pipelines, and integrative frameworks to address specialized downstream tasks and real-world application domains.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PUBLICATIONS ============ -->
+<section id="publication">
+  <span class="eyebrow">Chapter III</span>
+  <h2 class="title">Publications</h2>
+  <svg class="flourish" viewBox="0 0 120 26"><path d="M0 13h40M80 13h40M40 13c5-9 15-9 20 0-5 9-15 9-20 0Z" stroke="#9c7a2e" stroke-width="1" fill="none"/><circle cx="50" cy="13" r="2" fill="#9c7a2e"/><circle cx="70" cy="13" r="2" fill="#9c7a2e"/></svg>
+  <p class="subtitle">Recent research on applying deep learning and language models to low-resource, Burmese-language problems.</p>
+
+  <div class="pub-list">
+    <div class="pub">
+      <span class="pub-year">2026</span>
+      <div class="pub-title">Integrating Natural Language Processing with Deep Knowledge Tracing in Intelligent Tutoring Systems for Low-Resource Languages: A Case Study on Burmese STEM Curricula</div>
+      <div class="pub-meta">Preprint · DOI: 10.21203/rs.3.rs-9991485/v1</div>
+      <p class="pub-note">Developed an algorithmic pipeline pairing Deep Knowledge Tracing (DKT) frameworks with syntax analyzers to optimize adaptive technical learning structures for the Burmese language.</p>
+      <a href="https://doi.org/10.21203/rs.3.rs-9991485/v1" class="pub-link">View DOI →</a>
+    </div>
+    <div class="pub">
+      <span class="pub-year">2026</span>
+      <div class="pub-title">Mitigating Hallucinations in Large Language Models for Burmese Domain-Specific Question Answering</div>
+      <div class="pub-meta">Preprint · DOI: 10.21203/rs.3.rs-10023313/v1</div>
+      <p class="pub-note">Designed a domain-specific Retrieval-Augmented Generation (RAG) fine-tuning pipeline engineered to bound factual anomalies within generative models handling complex, low-resource string dynamics.</p>
+      <a href="https://doi.org/10.21203/rs.3.rs-10023313/v1" class="pub-link">View DOI →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROJECTS ============ -->
+<section id="dataset">
+  <span class="eyebrow">Chapter IV</span>
+  <h2 class="title">Projects</h2>
+  <svg class="flourish" viewBox="0 0 120 26"><path d="M0 13h40M80 13h40M40 13c5-9 15-9 20 0-5 9-15 9-20 0Z" stroke="#9c7a2e" stroke-width="1" fill="none"/><circle cx="50" cy="13" r="2" fill="#9c7a2e"/><circle cx="70" cy="13" r="2" fill="#9c7a2e"/></svg>
+  <p class="subtitle">Tools and pipelines built to support research in low-resource-language AI.</p>
+
+  <div class="ds-grid">
+    <div class="ds-card corner-frame">
+      <div class="ds-top">
+        <h3>Intelligent Tutoring System — NLP Engine</h3>
+        <span class="ds-badge">Lead Developer</span>
+      </div>
+      <p>Built and deployed deep learning text-processing pipelines to evaluate student domain-specific
+        inputs in low-resource environments, integrating custom tokenization with classification models
+        to map student response logs for real-time proficiency tracking. <span class="stamp-font" style="color:var(--rust); font-size:12px;">Apr 2026 – Present</span></p>
+      <div class="ds-stack"><span>Python</span><span>PyTorch</span><span>Scikit-learn</span></div>
+    </div>
+    <div class="ds-card corner-frame">
+      <div class="ds-top">
+        <h3>Low-Resource Language Vision &amp; Sequence Benchmarks</h3>
+        <span class="ds-badge">Independent Creator</span>
+      </div>
+      <p>Implemented NumPy-optimized computer vision pipelines and sequence-to-sequence architectures
+        to handle irregular character layouts and linguistic segmentation, along with standalone tools
+        for dataset ingestion and downstream evaluation.</p>
+      <div class="ds-stack"><span>Python</span><span>NumPy</span><span>OpenCV</span><span>Sequence Architecture</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TEACHING ============ -->
+<section id="teaching">
+  <span class="eyebrow">Chapter V</span>
+  <h2 class="title">Teaching</h2>
+  <svg class="flourish" viewBox="0 0 120 26"><path d="M0 13h40M80 13h40M40 13c5-9 15-9 20 0-5 9-15 9-20 0Z" stroke="#9c7a2e" stroke-width="1" fill="none"/><circle cx="50" cy="13" r="2" fill="#9c7a2e"/><circle cx="70" cy="13" r="2" fill="#9c7a2e"/></svg>
+  <p class="subtitle">Machine Learning: teaching the foundations clearly, with an emphasis on low-resource settings.</p>
+
+  <div class="ds-grid">
+    <div class="ds-card corner-frame">
+      <div class="ds-top">
+        <h3>Foundations of Machine Learning</h3>
+        <span class="ds-badge">Beginner</span>
+      </div>
+      <p>Supervised and unsupervised learning, bias and variance, model evaluation, and the statistics behind them.</p>
+      <div class="ds-stack"><span>Regression</span><span>Classification</span><span>Clustering</span><span>Scikit-learn</span></div>
+      <a href="https://example.com/ml-foundations" class="course-link" target="_blank" rel="noopener">View Course →</a>
+    </div>
+    <div class="ds-card corner-frame">
+      <div class="ds-top">
+        <h3>Deep Learning &amp; NLP</h3>
+        <span class="ds-badge">Intermediate</span>
+      </div>
+      <p>Neural networks, sequence models, and transformers, applied to tokenization and fine-tuning for languages like Burmese.</p>
+      <div class="ds-stack"><span>PyTorch</span><span>Transformers</span><span>Tokenization</span></div>
+      <a href="https://example.com/deep-learning-nlp" class="course-link" target="_blank" rel="noopener">View Course →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ACTIVITY ============ -->
+<section id="activity">
+  <span class="eyebrow">Chapter VI</span>
+  <h2 class="title">Activity</h2>
+  <svg class="flourish" viewBox="0 0 120 26"><path d="M0 13h40M80 13h40M40 13c5-9 15-9 20 0-5 9-15 9-20 0Z" stroke="#9c7a2e" stroke-width="1" fill="none"/><circle cx="50" cy="13" r="2" fill="#9c7a2e"/><circle cx="70" cy="13" r="2" fill="#9c7a2e"/></svg>
+  <p class="subtitle">Talks, workshops, open-source work and community involvement.</p>
+
+  <div class="timeline">
+    <div class="t-item">
+      <span class="t-year">2026</span>
+      <h3 class="t-title">ICISPC 2026</h3>
+      <span class="t-org"> International Conference on Imaging, Signal Processing and Communications·Kobe,Japan</span>
+      <p class="t-desc">Provided registration table support, addressed attendee inquiries, and guided participants across session halls.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CV — photo band ============ -->
+<section id="cv">
+  <div class="photo-band">
+    <div class="band-bg"><img src="https://cdn.pixabay.com/photo/2017/11/10/22/35/robot-2937861_1280.jpg" alt=""></div>
+    <div class="inner">
+      <span class="eyebrow">Chapter VII</span>
+      <h2 class="title">Curriculum Vitae</h2>
+      <p class="subtitle">Research experience and technical skills at a glance.</p>
+
+      <div class="cv-shell">
+        <div class="cv-block">
+          <h3>Research Experience</h3>
+          <div class="cv-row"><span class="role">Founder &amp; Lead Researcher — Burmese AI Research Institute</span><span class="yr">Mar 2026–Present</span></div>
+          <div class="cv-row"><span class="role">Lead Developer — Intelligent Tutoring System NLP Engine</span><span class="yr">Apr 2026–Present</span></div>
+          <div class="cv-row"><span class="role">Independent Creator — Low-Resource Vision &amp; Sequence Benchmarks</span><span class="yr">2026</span></div>
+
+          <h3 style="margin-top:38px;">Education</h3>
+          <div class="cv-row"><span class="role">MIT MicroMasters, Statistics and Data Science</span><span class="yr">2026–Present</span></div>
+          <div class="cv-row"><span class="role">B.S. Computer Science, University of the People (GPA 3.8)</span><span class="yr">Exp. 2027</span></div>
+        </div>
+
+        <div class="cv-block">
+          <h3>Technical Skills</h3>
+          <div class="skill-group">
+            <div class="skill-group-title">Computing Languages</div>
+            <div class="skill-tags"><span>Python</span><span>SQL</span><span>Bash</span><span>HTML/CSS</span></div>
+          </div>
+          <div class="skill-group">
+            <div class="skill-group-title">Frameworks &amp; Systems</div>
+            <div class="skill-tags"><span>PyTorch</span><span>TensorFlow</span><span>NumPy</span><span>Pandas</span><span>Scikit-learn</span><span>OpenCV</span></div>
+          </div>
+          <div class="skill-group">
+            <div class="skill-group-title">Core Methodology</div>
+            <div class="skill-tags"><span>Retrieval-Augmented Generation (RAG)</span><span>Deep Knowledge Tracing (DKT)</span><span>Neural Language Modeling</span><span>Sequence Engineering</span></div>
+          </div>
+          <div class="cv-download">
+            <a href="CV.pdf" class="btn btn-primary">Download Full CV (PDF)</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <svg class="foot-seal" viewBox="0 0 120 120" fill="none">
+    <circle cx="60" cy="60" r="56" stroke="#8a3a29" stroke-width="1.2"/>
+    <circle cx="60" cy="60" r="47" stroke="#8a3a29" stroke-width="0.7" stroke-dasharray="2 4"/>
+    <text x="60" y="34" text-anchor="middle" fill="#8a3a29" font-family="Special Elite, monospace" font-size="7" letter-spacing="1.5">A · K · O</text>
+    <text x="60" y="94" text-anchor="middle" fill="#8a3a29" font-family="Special Elite, monospace" font-size="7" letter-spacing="1.5">MMXXVI</text>
+    <path d="M40 60c4-10 10-16 20-16s16 6 20 16c-4 10-10 16-20 16s-16-6-20-16Z" stroke="#8a3a29" stroke-width="1"/>
+    <circle cx="60" cy="60" r="5" fill="#8a3a29"/>
+  </svg>
+  <div class="foot-links">
+    <a href="mailto:AungKoKoOo@my.uopeople.edu" title="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></a>
+    <a href="https://github.com/Aung-Ko-Ko-Oo" title="GitHub"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 19c-4 1.5-4-1-6-2m12 4v-3.2c0-1 .3-1.5.9-2-2.9-.3-6-1.4-6-6.4 0-1.4.5-2.6 1.4-3.5-.1-.3-.6-1.7.1-3.5 0 0 1.1-.3 3.5 1.3a12 12 0 0 1 6.4 0c2.4-1.6 3.5-1.3 3.5-1.3.7 1.8.2 3.2.1 3.5.9.9 1.4 2.1 1.4 3.5 0 5-3.1 6.1-6 6.4.5.4 1 1.3 1 2.6V19"/></svg></a>
+    <a href="https://www.linkedin.com/in/austin2029/" title="LinkedIn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a>
+    <a href="https://huggingface.co/austin2029" title="Hugging Face"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm-3 7a1.5 1.5 0 1 1-1.5 1.5A1.5 1.5 0 0 1 9 9zm6 0a1.5 1.5 0 1 1-1.5 1.5A1.5 1.5 0 0 1 15 9zm-6.5 6a5 5 0 0 0 7 0"></path></svg></a>
+    <a href="https://scholar.google.com/citations?hl=en&authuser=1&user=2uIqHIMAAAAJ" title="Google Scholar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L1 7l11 5 9-4.09V17h2V7L12 2z"></path><path d="M3.5 10.15V16c0 2.5 3.8 4.5 8.5 4.5s8.5-2 8.5-4.5v-5.85l-8.5 3.86-8.5-3.86z"></path></svg></a>
+  </div>
+  <small>KOBE, JAPAN — AUNG KO KO OO · 2026</small>
+</footer>
+
+</div>
+
+<script>
+  /* ---------- active nav link ---------- */
+  const links = document.querySelectorAll('.nav-link');
+  const sections = document.querySelectorAll('section');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(l=>l.classList.remove('active'));
+        const match = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+        if(match) match.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+  sections.forEach(s=>io.observe(s));
+
+  /* ---------- translate feature ---------- */
+  // Keep names, DOIs, tech terms and nav untranslated
+  document.querySelectorAll('.hero-name, .pub-meta, .ds-stack, .skill-tags, .tag, footer small, nav')
+    .forEach(el => el.classList.add('notranslate'));
+
+  const sw = document.getElementById('langSwitch');
+  const btn = document.getElementById('langBtn');
+  const label = document.getElementById('langLabel');
+
+  function markCurrent(code){
+    document.querySelectorAll('#langMenu button').forEach(b=>{
+      const on = b.dataset.lang === code;
+      b.classList.toggle('current', on);
+      if (on) label.textContent = b.textContent;
+    });
+  }
+
+  function applyLang(code){
+    let tries = 0;
+    const t = setInterval(()=>{
+      const combo = document.querySelector('.goog-te-combo');
+      if (combo){
+        clearInterval(t);
+        combo.value = code;
+        combo.dispatchEvent(new Event('change'));
+        markCurrent(code);
+      } else if (++tries > 50) clearInterval(t);
+    }, 100);
+  }
+
+  function setLang(code){
+    try { localStorage.setItem('siteLang', code); } catch(e){}
+    if (code === 'en'){
+      const past = 'expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
+      document.cookie = 'googtrans=; ' + past;
+      document.cookie = 'googtrans=; ' + past + '; domain=' + location.hostname;
+      location.reload();
+    } else {
+      applyLang(code);
+    }
+  }
+
+  function googleTranslateElementInit(){
+    new google.translate.TranslateElement({
+      pageLanguage:'en',
+      includedLanguages:'my,ja,zh-CN,ko,th,es,fr,de',
+      autoDisplay:false
+    }, 'google_translate_element');
+    let saved = null;
+    try { saved = localStorage.getItem('siteLang'); } catch(e){}
+    if (saved && saved !== 'en') applyLang(saved);
+  }
+
+  btn.addEventListener('click', e=>{
+    e.stopPropagation();
+    const open = sw.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open);
+  });
+  document.addEventListener('click', ()=> sw.classList.remove('open'));
+  document.querySelectorAll('#langMenu button').forEach(b=>{
+    b.addEventListener('click', ()=>{ sw.classList.remove('open'); setLang(b.dataset.lang); });
+  });
+  try { markCurrent(localStorage.getItem('siteLang') || 'en'); } catch(e){ markCurrent('en'); }
+</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>
