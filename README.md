@@ -1,75 +1,61 @@
-Aung Ko Ko Oo — Personal Portfolio & Research Page
+ A U N G   K O   K O   O O 
 
-Welcome to the official repository for my personal portfolio website, featuring my academic background, research preprints, projects, and teaching materials in Natural Language Processing (NLP) and Artificial Intelligence for low-resource languages.
+⚜️ About Me
 
-🌟 Overview
+Welcome to my official digital sanctuary. I am a researcher and developer dedicated to building natural language processing frameworks, intelligent tutoring systems, and generative pipelines tailored for low-resource languages (specifically Burmese script architecture).
 
-This repository hosts a responsive, parchment-styled portfolio website built with pure HTML, CSS, and vanilla JavaScript. It includes integrated multi-language support (English, Burmese, Japanese, Chinese, etc.) powered by Google Translate, pre-configured to preserve technical terms, author names, and publication links.
+Founder & Lead Researcher: Burmese Artificial Intelligence Research Institute (Mar 2026 – Present)
 
-Featured Content
+Academic Pursuits: B.S. in Computer Science @ University of the People & MIT MicroMasters® in Statistics and Data Science.
 
-Education: B.S. in Computer Science at University of the People & MIT MicroMasters® in Statistics and Data Science.
+🏛️ Research Domains & Core Expertise
 
-Research Areas: Low-Resource NLP, Machine Learning, Computer Vision, Quantum Computing, and Robotics/HRI.
+Domain
 
-Publications & Preprints: Research on Deep Knowledge Tracing (DKT) and Retrieval-Augmented Generation (RAG) for the Burmese language.
+Focus Area
 
-Projects & Teaching: Open-source tools, dataset benchmarks, and educational modules.
+Technologies
 
-🛠 Tech Stack
+I. NLP & LLMs
 
-Frontend: Semantic HTML5, CSS3 (Custom CSS variables, retro parchment aesthetic, responsive layout)
+Low-resource tokenization & RAG pipeline optimization
 
-Scripting: Vanilla JavaScript (Intersection Observer API for active navigation, dynamic language switcher)
+Python, PyTorch, Transformers
 
-Typography: Google Fonts (Playfair Display, EB Garamond, Special Elite, Noto Serif Myanmar, Noto Serif JP)
+II. Educational AI
 
-🚀 Local Development
+Deep Knowledge Tracing (DKT) in Intelligent Tutoring Systems
 
-To run this website locally on your computer:
+Scikit-learn, Statistical Modeling
 
-Clone the repository:
+III. Vision & Sequence
 
-git clone https://github.com/Aung-Ko-Ko-Oo/Aung-Ko-Ko-Oo_portfolio.git
+NumPy-optimized parsing for irregular script layouts
 
+OpenCV, NumPy, Sequence Arch.
 
-Navigate into the directory:
+IV. Advanced Computing
 
-cd Aung-Ko-Ko-Oo_portfolio
+Quantum machine learning algorithms & complex optimization
 
+Qiskit, Theoretical Frameworks
 
-Open index.html in your browser:
+📜 Publications & Preprints
 
-Double-click the index.html file, or run a local static server:
+Integrating Natural Language Processing with Deep Knowledge Tracing in Intelligent Tutoring Systems for Low-Resource Languages: A Case Study on Burmese STEM Curricula (2026)
 
-# Python 3
-python3 -m http.server 8000
+Preprint · DOI: 10.21203/rs.3.rs-9991485/v1
 
+Mitigating Hallucinations in Large Language Models for Burmese Domain-Specific Question Answering (2026)
 
-Access the page at http://localhost:8000.
+Preprint · DOI: 10.21203/rs.3.rs-10023313/v1
 
-🌐 Deploying to GitHub Pages
+🛠️ Technical Arsenal
 
-Go to your repository settings on GitHub: Settings > Pages.
+Languages: Python, SQL, Bash, HTML/CSS
 
-Under Build and deployment, select Deploy from a branch.
+Frameworks & Libraries: PyTorch, TensorFlow, NumPy, Pandas, Scikit-learn, OpenCV
 
-Choose the main branch and root directory (/), then click Save.
+Core Methodologies: Retrieval-Augmented Generation (RAG), Deep Knowledge Tracing (DKT), Neural Language Modeling
 
-Your site will be live at: https://Aung-Ko-Ko-Oo.github.io/Aung-Ko-Ko-Oo_portfolio
-
-📬 Contact & Links
-
-Email: AungKoKoOo@my.uopeople.edu
-
-GitHub: @Aung-Ko-Ko-Oo
-
-LinkedIn: austin2029
-
-Hugging Face: @austin2029
-
-Google Scholar: Aung Ko Ko Oo Profile
-
-📄 License
-
-This project is open-source and available under the MIT License.
+🌐 Connect With Me
